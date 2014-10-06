@@ -28,10 +28,22 @@
   with_items: elasticsearch_apt_dependencies
 
 # Configure user and group
-- name: Configuring user and group
+- name: Configuring group
   group: name={{ elasticsearch_group }}
-- user: name={{ elasticsearch_user }} group={{ elasticsearch_group }} createhome=no
+  when: elasticsearch_group_id is not defined
 
+- name: Configuring group
+  group: name={{ elasticsearch_group }} gid={{ elasticsearch_group_id }}
+  when: elasticsearch_group_id is defined
+  
+- name: Configuring user
+  user: name={{ elasticsearch_user }} group={{ elasticsearch_group }} createhome=no shell=/bin/false
+  when: elasticsearch_user_id is not defined
+
+- name: Configuring user
+  user: name={{ elasticsearch_user }} group={{ elasticsearch_group }} createhome=no shell=/bin/false uid={{ elasticsearch_user_id }}
+  when: elasticsearch_user_id is defined
+  
 # Check whether we have aleady installed the same version
 - shell: if [ -e /usr/share/elasticsearch/lib/elasticsearch-{{ elasticsearch_version }}.jar ]; then echo yes; else echo no; fi;
   register: version_exists
