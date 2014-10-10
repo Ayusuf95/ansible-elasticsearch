@@ -119,4 +119,4 @@
 
 # Restart Elasticsearch
 - name: Restarting Elasticsearch
-  service: name=elasticsearch state=restarted
+  service: name=elasticsearch state={{elasticsearch_state}} enabled={{ elasticsearch_enable }}
