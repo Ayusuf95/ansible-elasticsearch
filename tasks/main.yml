@@ -120,3 +120,8 @@
 # Restart Elasticsearch
 - name: Restarting Elasticsearch
   service: name=elasticsearch state={{elasticsearch_state}} enabled={{ elasticsearch_enable }}
+
+# Logstash
+- include: logstash.yml
+  tags:
+    - logstash_integration
