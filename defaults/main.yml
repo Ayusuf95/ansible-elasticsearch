@@ -31,8 +31,3 @@ elasticsearch_install_java: "true"
 
 elasticsearch_enable: yes
 elasticsearch_state: started
-
-#
-# Logstash
-#
-logstash_conf_dir: /etc/logstash/conf.d

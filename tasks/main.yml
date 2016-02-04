@@ -47,9 +47,3 @@
 
 # Always run post-run tasks
 - include: post-run.yml
-
-# Logstash
-- include: logstash.yml
-  tags:
-    - logstash
-    - elasticsearch
