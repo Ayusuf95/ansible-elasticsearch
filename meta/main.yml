@@ -1,5 +1,4 @@
 ---
-# Elasticsearch Ansible Meta
 galaxy_info:
   author: "George Stathis"
   company: Traackr
@@ -9,6 +8,7 @@ galaxy_info:
    - name: Ubuntu
      versions:
       - precise
-  categories:
-   - database:nosql
+  galaxy_tags:
+   - database
+   - nosql
 dependencies: []
