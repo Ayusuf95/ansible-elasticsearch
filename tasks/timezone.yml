@@ -17,3 +17,4 @@
 - name: timezone | Run dpkg-reconfigure to configure timezone
   shell: dpkg-reconfigure --frontend noninteractive tzdata
   when: current_zone.stdout != elasticsearch_timezone
+  

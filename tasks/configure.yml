@@ -1,0 +1,82 @@
+---
+
+- name: Configure limits max_open_files
+  lineinfile:
+    dest=/etc/security/limits.conf
+    regexp='^{{ elasticsearch_user }}     -    nofile    {{ elasticsearch_max_open_files }}'
+    insertafter=EOF
+    line='{{ elasticsearch_user }}     -    nofile    {{ elasticsearch_max_open_files }}'
+  when: elasticsearch_max_open_files is defined
+  notify: Restart Elasticsearch
+
+- name: Configure limits max_locked_memory
+  lineinfile:
+    dest=/etc/security/limits.conf
+    regexp='^{{ elasticsearch_user }}     -    memlock   {{ elasticsearch_max_locked_memory }}'
+    insertafter=EOF
+    line='{{ elasticsearch_user }}     -    memlock   {{ elasticsearch_max_locked_memory }}'
+  when: elasticsearch_max_locked_memory is defined
+  notify: Restart Elasticsearch
+
+- name: Configure su pam_limits.so
+  lineinfile:
+    dest=/etc/pam.d/su
+    regexp='^session    required   pam_limits.so'
+    insertafter=EOF
+    line='session    required   pam_limits.so'
+  notify: Restart Elasticsearch
+
+- name: Configure common-session pam_limits.so
+  lineinfile:
+    dest=/etc/pam.d/common-session
+    regexp='^session    required   pam_limits.so'
+    insertafter=EOF
+    line='session    required   pam_limits.so'
+  notify: Restart Elasticsearch
+
+- name: Configure common-session-noninteractive pam_limits.so
+  lineinfile:
+    dest=/etc/pam.d/common-session-noninteractive
+    regexp='^session    required   pam_limits.so'
+    insertafter=EOF
+    line='session    required   pam_limits.so'
+  notify: Restart Elasticsearch
+
+- name: Configure sudo pam_limits.so
+  lineinfile:
+    dest=/etc/pam.d/sudo
+    regexp='^session    required   pam_limits.so'
+    insertafter=EOF
+    line='session    required   pam_limits.so'
+  notify: Restart Elasticsearch
+
+# - name: Configure initd java opts in /etc/init.d/elasticsearch
+#   lineinfile:
+#     dest=/etc/init.d/elasticsearch
+#     regexp='^(DAEMON_OPTS=".*-Des.max-open-files=true")$'
+#     insertafter='^(DAEMON_OPTS=".*CONF_DIR")$'
+#     line='DAEMON_OPTS="$DAEMON_OPTS -Des.max-open-files=true"'
+#   notify: Restart Elasticsearch
+
+- name: Configuring Elasticsearch elasticsearch.yml Node
+  template:
+    src=elasticsearch.yml.j2
+    dest={{ elasticsearch_conf_dir }}/elasticsearch.yml
+    owner=root
+    group={{ elasticsearch_group }}
+    mode=0640
+  notify: Restart Elasticsearch
+
+- name : Configure /etc/default/elasticsearch
+  template:
+    src=elasticsearch.default.j2
+    dest=/etc/default/elasticsearch
+    owner=root
+    group=root
+    mode=0644
+  notify: Restart Elasticsearch
+  
+- name: Ensure Elasticsearch service is properly configured
+  tags: [elasticsearch]
+  service: name=elasticsearch enabled="{{ elasticsearch_enable }}" state="{{ elasticsearch_state }}"
+  

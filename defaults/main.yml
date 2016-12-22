@@ -1,9 +1,13 @@
 ---
 
-elasticsearch_user: elasticsearch
+elasticsearch_install_java: false
+elasticsearch_set_timezone: false
+
+elasticsearch_user:  elasticsearch
 elasticsearch_group: elasticsearch
-elasticsearch_download_url: https://download.elasticsearch.org/elasticsearch/elasticsearch
-elasticsearch_version: 2.3.3 # latest as of 2016-07-04
+elasticsearch_download_url: https://artifacts.elastic.co/downloads/elasticsearch
+                            
+elasticsearch_version: 5.1.1 # latest as of 2016-12-19
 elasticsearch_apt_repos:
   - 'ppa:webupd8team/java'
 elasticsearch_apt_java_package: oracle-java7-installer
@@ -11,23 +15,15 @@ elasticsearch_apt_dependencies:
   - htop
   - ntp
   - unzip
-elasticsearch_max_open_files: 65535
+elasticsearch_max_open_files: 65536
 elasticsearch_home_dir: /usr/share/elasticsearch
-elasticsearch_plugin_dir: /usr/share/elasticsearch/plugins
 elasticsearch_log_dir: /var/log/elasticsearch
 elasticsearch_data_dir: /var/lib/elasticsearch
-elasticsearch_work_dir: /tmp/elasticsearch
 elasticsearch_conf_dir: /etc/elasticsearch
 elasticsearch_pid_dir: /var/run
-elasticsearch_service_startonboot: no
 elasticsearch_timezone: "Etc/UTC"  # Default to UTC
-
-#elasticsearch_http_cors_enabled: "false"
-elasticsearch_service_state: started
-
-# Non-Elasticsearch Defaults
-apt_cache_valid_time: 300 # seconds between "apt-get update" calls.
-elasticsearch_install_java: "true"
+elasticsearch_custom_jars: []
+elasticsearch_plugins: []
 
 elasticsearch_enable: yes
 elasticsearch_state: started

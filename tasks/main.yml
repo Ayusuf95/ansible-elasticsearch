@@ -1,49 +1,28 @@
 ---
-# Elasticsearch Ansible Tasks
 
-# Install Java
 - include: java.yml
   when: elasticsearch_install_java
   tags:
     - elasticsearch
     - java
 
-# Configure timezome
 - include: timezone.yml
+  when: elasticsearch_set_timezone
   tags:
     - elasticsearch
     - timezone
 
-# Install and configure elasticsearch
-- include: elastic-install.yml
+- include: install.yml
   tags:
     - elaticsearch
+    - install
 
-# Install AWS Plugin
-- include: aws.yml
-  when: (elasticsearch_plugin_aws_version is defined)
+- include: configure.yml
   tags:
-    - elasticsearch
-    - aws
-
-# Install Other Generic Plugins
+    - elaticsearch
+    - config
+  
 - include: plugins.yml
-  when: (elasticsearch_plugins is defined)
   tags:
     - elasticsearch
-
-# Install custom JARs
-- include: custom-jars.yml
-  when: (elasticsearch_custom_jars is defined)
-  tags:
-    - elasticsearch
-
-# Install Marvel Plugin
-- include: marvel.yml
-  when: (elasticsearch_plugin_marvel_version is defined)
-  tags:
-    - elasticsearch
-    - marvel
-
-# Always run post-run tasks
-- include: post-run.yml
+    - plugins
