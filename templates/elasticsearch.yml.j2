@@ -114,7 +114,7 @@ indices.breaker.request.limit: {{ elasticsearch_indices_breaker_request_limit }}
 #
 #network.host: 192.168.0.1
 {% if elasticsearch_network_host is defined %}
-network.host: {{ elasticsearch_network_host }}
+network.host: {{ elasticsearch_network_host | to_nice_yaml }}
 {% endif %}
 
 # Set the bind address specifically (IPv4 or IPv6):
