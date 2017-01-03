@@ -11,15 +11,21 @@
     state=present
   with_items: "{{ elasticsearch_apt_dependencies }}"
 
-- name: Configuring elastic group
-  group:
-    name={{ elasticsearch_group }}
+- name: Configuring elastic group (without explicit ID)
+  when: "{{ elasticsearch_group_id is not defined }}"
+  group: name={{ elasticsearch_group }}
 
-- name: Configuring elastic user
-  user:
-    name={{ elasticsearch_user }}
-    group={{ elasticsearch_group }}
-    createhome=no
+- name: Configuring elastic group (with explicit ID)
+  when: "{{ elasticsearch_group_id is defined }}"
+  group: name={{ elasticsearch_group }} gid={{ elasticsearch_group_id }}
+  
+- name: Configuring elastic user (without explicit ID)
+  when: "{{ elasticsearch_user_id is not defined }}"
+  user: name={{ elasticsearch_user }} group={{ elasticsearch_group }} home={{ elasticsearch_pid_dir }} createhome=no
+
+- name: Configuring elastic user (with explicit ID)
+  when: "{{ elasticsearch_user_id is defined }}"
+  user: name={{ elasticsearch_user }} group={{ elasticsearch_group }} home={{ elasticsearch_pid_dir }} createhome=no uid={{ elasticsearch_user_id }}
 
 - name: Check if we have elastic with same version installed
   stat:
