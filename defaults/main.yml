@@ -20,7 +20,7 @@ elasticsearch_home_dir: /usr/share/elasticsearch
 elasticsearch_log_dir: /var/log/elasticsearch
 elasticsearch_data_dir: /var/lib/elasticsearch
 elasticsearch_conf_dir: /etc/elasticsearch
-elasticsearch_pid_dir: /var/run
+elasticsearch_pid_dir: /var/run/elasticsearch
 elasticsearch_timezone: "Etc/UTC"  # Default to UTC
 elasticsearch_custom_jars: []
 elasticsearch_plugins: []
