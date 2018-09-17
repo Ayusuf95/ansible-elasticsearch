@@ -26,3 +26,8 @@
   tags:
     - elasticsearch
     - plugins
+
+- include: post-run.yml
+  tags:
+    - elasticsearch
+    - cron
