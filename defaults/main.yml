@@ -27,3 +27,5 @@ elasticsearch_plugins: []
 
 elasticsearch_enable: yes
 elasticsearch_state: started
+
+curator_index_limit: 90
